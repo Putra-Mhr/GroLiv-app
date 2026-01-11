@@ -5,7 +5,12 @@ import { formatDate } from "../lib/utils";
 function CustomersPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["customers"],
-    queryFn: customerApi.getAll,
+    queryFn: async () => {
+      console.log("Fetching customers...");
+      const result = await customerApi.getAll();
+      console.log("Customers fetched:", result.customers);
+      return result;
+    },
   });
 
   const customers = data?.customers || [];
